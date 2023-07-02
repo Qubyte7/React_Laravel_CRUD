@@ -1,9 +1,10 @@
 import axios from "axios"
 import React,{useState} from "react"
 import { Swal } from "sweetalert2/dist/sweetalert2"
-
+import { useNavigate } from "react-router-dom"
 
  const NewProduct = () =>{
+const navigate = useNavigate();
 
     const [name,setName] = useState("")
     const [description,setDescription] = useState("")
@@ -42,7 +43,16 @@ const createProduct = async (e) =>{
      formData.append('quantity',quantity)
      formData.append('price',price)
 
-     await axios.post("/api/add_product",formData)
+     await axios.post("/api/add_product",formData).then(({data})=>{
+        TransformStream.fire({
+            icon:"success",
+            title:"Product add successfully"
+        })
+        navigate("/")
+     })
+     .catch(({response})=>{
+
+     })
 
 }
 
